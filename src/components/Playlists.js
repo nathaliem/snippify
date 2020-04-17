@@ -1,6 +1,5 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { AuthContext } from '../context/auth';
-import { PlaylistContext } from '../context/playlist';
 import Playlist from './Playlist';
 import axios from 'axios';
 import styled from 'styled-components';
@@ -12,9 +11,8 @@ const Container = styled.div`
 	flex-grow: 1;
 `;
 
-export default function Playlists(props) {
+export default function Playlists() {
 	let { token, setToken } = useContext(AuthContext);
-	const { selectedPlaylist } = useContext(PlaylistContext);
 	const [ playlists, setPlaylists ] = useState([]);
 	const [ playlistOffset, setPlaylistOffset ] = useState(0);
 

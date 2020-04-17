@@ -37,19 +37,24 @@ export default function Page() {
 				}
 			})
 			.then((response) => {
-				const mappedSongs = response.data.items.map((item) => item.track);
+				const mappedSongs = response.data.items
+					.map((item) => item.track)
+					.filter((item) => item.preview_url !== null);
 				setSongs(mappedSongs);
 			});
 	};
 
 	useEffect(
 		() => {
+			console.log('use effect');
 			if (selectedPlaylist.id) {
 				getSongs(selectedPlaylist);
 			}
 		},
 		[ selectedPlaylist ]
 	);
+
+	console.log('PAGE', selectedPlaylist, songs);
 
 	return (
 		<div>
@@ -59,7 +64,7 @@ export default function Page() {
 			{token ? (
 				<Container>
 					<Playlists />
-					<Songs songs={songs} />
+					{<Songs songs={songs} />}
 				</Container>
 			) : (
 				<Login />

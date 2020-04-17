@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import Song from './Song';
+import { PlaylistContext } from '../context/playlist';
 
 const Container = styled.div`
 	flex-grow: 1;
@@ -11,39 +12,40 @@ const Container = styled.div`
 export default function Songs(props) {
 	const { songs } = props;
 	const [ currentlyPlayingSong, setCurrentlyPlayingSong ] = useState({});
+	const { selectedPlaylist } = useContext(PlaylistContext);
 
 	const getNextSong = (song) => {
-		console.log(typeof songs);
-		console.log(typeof songs[0]);
-		console.log(Array.from(songs));
-
-		console.log(song, typeof song);
 		const currentIndex = songs.findIndex((el) => {
 			return el.id === song.id;
 		});
-		console.log(currentIndex);
-		setCurrentlyPlayingSong(songs[currentIndex + 1]);
-		//console.log(songs.find(song));
+
+		if (currentIndex !== songs.length - 1) {
+			setCurrentlyPlayingSong(songs[currentIndex + 1]);
+		}
 	};
 
-	console.log(songs);
-
-	/*useEffect(() => {
-
-    }, [currentlyPlayingSong]);*/
+	useEffect(
+		() => {
+			setCurrentlyPlayingSong({});
+		},
+		[ selectedPlaylist ]
+	);
 
 	return (
 		<Container>
+			<h2>{selectedPlaylist.name}</h2>
 			{songs &&
-				songs.map((song) => (
-					<Song
-						key={song.id}
-						song={song}
-						isPlaying={currentlyPlayingSong.id ? song.id === currentlyPlayingSong.id : false}
-						changePlayingSong={() => setCurrentlyPlayingSong(song)}
-						getNextSong={() => getNextSong(song)}
-					/>
-				))}
+				songs.map((song) => {
+					return (
+						<Song
+							key={song.id}
+							song={song}
+							changePlayingSong={(newSong) => setCurrentlyPlayingSong(newSong)}
+							getNextSong={() => getNextSong(song)}
+							isPlaying={currentlyPlayingSong.id ? song.id === currentlyPlayingSong.id : false}
+						/>
+					);
+				})}
 		</Container>
 	);
 }
