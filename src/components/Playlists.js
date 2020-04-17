@@ -3,12 +3,31 @@ import { AuthContext } from '../context/auth';
 import Playlist from './Playlist';
 import axios from 'axios';
 import styled from 'styled-components';
+import { MoreVert } from '@styled-icons/material';
 
 const Container = styled.div`
 	padding: 15px;
 	background-color: ${(props) => props.theme.green};
-	max-width: 300px;
-	flex-grow: 1;
+	width: 300px;
+	border-right: 5px solid ${(props) => props.theme.lightgrey};
+`;
+
+const LoadMoreButton = styled.button`
+	border: none;
+	background-color: ${(props) => props.theme.black};
+	color: #fff;
+	border-radius: 25px;
+	padding: 15px 45px;
+	cursor: pointer;
+	font-weight: 500;
+	margin-top: 15px;
+	font-size: 1rem;
+	transition: background-color .3s ease;
+	font-family: Montserrat;
+
+	&:hover {
+		background-color: #000;
+	}
 `;
 
 export default function Playlists() {
@@ -17,7 +36,7 @@ export default function Playlists() {
 	const [ playlistOffset, setPlaylistOffset ] = useState(0);
 
 	const getPlaylists = (offset) => {
-		const playlistsToGet = 5;
+		const playlistsToGet = 15;
 
 		axios
 			.get(`https://api.spotify.com/v1/me/playlists?limit=${playlistsToGet}&offset=${offset}`, {
@@ -47,8 +66,11 @@ export default function Playlists() {
 
 	return (
 		<Container>
+			<h2>
+				Playlists <MoreVert size="24" />
+			</h2>
 			{playlists && playlists.map((playlist) => <Playlist key={playlist.id} playlist={playlist} />)}
-			<button onClick={loadMorePlaylists}>Load more playlists</button>
+			<LoadMoreButton onClick={loadMorePlaylists}>Load more playlists</LoadMoreButton>
 		</Container>
 	);
 }

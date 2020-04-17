@@ -3,17 +3,18 @@ import { PlaylistContext } from '../context/playlist';
 import styled from 'styled-components';
 
 const Item = styled.div`
-	margin-bottom: 10px;
+	padding-bottom: 10px;
 	cursor: pointer;
-	font-weight: ${(props) => (props.active ? 500 : 400)};
+	font-weight: ${(props) => (props.active ? 800 : 500)};
+	color: ${(props) => props.theme.black};
 
 	&:hover {
-		font-weight: 500;
+		color: #222326;
 	}
 
-	.playlistNumber {
-		font-size: 0.8rem;
-		visibility: hidden;
+	& + & {
+		padding-top: 10px;
+		border-top: 1px solid ${(props) => props.theme.black};
 	}
 `;
 
@@ -21,11 +22,9 @@ export default function Playlist(props) {
 	const { playlist } = props;
 	const { selectedPlaylist, setSelectedPlaylist } = useContext(PlaylistContext);
 
-	console.log('Playlist');
-
 	return (
 		<Item active={playlist.id === selectedPlaylist.id} onClick={() => setSelectedPlaylist(playlist)}>
-			{playlist.name} <span className="playlistNumber">({playlist.tracks.total})</span>
+			{playlist.name}
 		</Item>
 	);
 }

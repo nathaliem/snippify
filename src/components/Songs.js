@@ -34,8 +34,9 @@ export default function Songs(props) {
 	return (
 		<Container>
 			<h2>{selectedPlaylist.name}</h2>
-			{songs &&
+			{songs && selectedPlaylist.name ? (
 				songs.map((song) => {
+					console.log(song.name, currentlyPlayingSong.id, song.id);
 					return (
 						<Song
 							key={song.id}
@@ -45,7 +46,10 @@ export default function Songs(props) {
 							isPlaying={currentlyPlayingSong.id ? song.id === currentlyPlayingSong.id : false}
 						/>
 					);
-				})}
+				})
+			) : (
+				<p>Choose a playlist!</p>
+			)}
 		</Container>
 	);
 }

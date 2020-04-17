@@ -1,5 +1,26 @@
 import React, { useContext, useEffect } from 'react';
+import styled from 'styled-components';
 import { AuthContext } from '../context/auth';
+
+const LoginButton = styled.button`
+	background-color: ${(props) => props.theme.green};
+	color: #fff;
+	text-align: center;
+	padding: 10px 60px;
+	font-weight: 600;
+	font-size: 1.5rem;
+	font-family: Montserrat;
+	border-radius: 25px;
+	margin: 40vh auto 0 auto;
+	border: 0;
+	display: block;
+	cursor: pointer;
+	transition: background-color .3s ease;
+
+	&:hover {
+		background-color: ${(props) => props.theme.black};
+	}
+`;
 
 export default function Login() {
 	const { setToken } = useContext(AuthContext);
@@ -34,7 +55,7 @@ export default function Login() {
 
 	return (
 		<div>
-			<button onClick={sendToLoginPage}>Login with Spotify</button>
+			<LoginButton onClick={sendToLoginPage}>Login with Spotify</LoginButton>
 		</div>
 	);
 }

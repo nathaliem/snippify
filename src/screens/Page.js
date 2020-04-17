@@ -46,15 +46,12 @@ export default function Page() {
 
 	useEffect(
 		() => {
-			console.log('use effect');
 			if (selectedPlaylist.id) {
 				getSongs(selectedPlaylist);
 			}
 		},
 		[ selectedPlaylist ]
 	);
-
-	console.log('PAGE', selectedPlaylist, songs);
 
 	return (
 		<div>
