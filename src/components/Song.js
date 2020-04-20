@@ -52,11 +52,9 @@ export default React.memo(function Song(props) {
 	const { song, getNextSong } = props;
 	const { currentlyPlayingSong, setCurrentlyPlayingSong } = useContext(PlaylistContext);
 	const [ favorited, setFavorited ] = useState(false);
-	let isPlaying = false;
+	const [ isPlaying, setIsPlaying ] = useState(false);
 
 	const getPlayStatus = () => {
-		isPlaying = song.id === currentlyPlayingSong.id;
-
 		if (_track.current) {
 			if (!isPlaying) {
 				_track.current.pause();
@@ -69,6 +67,14 @@ export default React.memo(function Song(props) {
 	useEffect(
 		() => {
 			getPlayStatus();
+		},
+		[ isPlaying ]
+	);
+
+	useEffect(
+		() => {
+			console.log(currentlyPlayingSong);
+			setIsPlaying(currentlyPlayingSong.id === song.id);
 		},
 		[ currentlyPlayingSong ]
 	);
@@ -93,18 +99,8 @@ export default React.memo(function Song(props) {
 	return (
 		<Container>
 			<SongOptions>
-				<audio
-					onPlay={() => {
-						isPlaying = true;
-					}}
-					onPause={() => {
-						isPlaying = false;
-					}}
-					onEnded={() => getNextSong(song)}
-					src={song.preview_url}
-					ref={_track}
-				/>
-				{currentlyPlayingSong.id !== song.id ? (
+				<audio onEnded={() => getNextSong(song)} src={song.preview_url} ref={_track} />
+				{!isPlaying ? (
 					<PlayCircleOutline
 						size="32"
 						onClick={() => {
