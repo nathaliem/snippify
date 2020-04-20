@@ -18,7 +18,7 @@ const Item = styled.div`
 	}
 `;
 
-export default function Playlist(props) {
+export default React.memo(function Playlist(props) {
 	const { playlist } = props;
 	const { selectedPlaylist, setSelectedPlaylist } = useContext(PlaylistContext);
 
@@ -27,4 +27,4 @@ export default function Playlist(props) {
 			{playlist.name}
 		</Item>
 	);
-}
+});

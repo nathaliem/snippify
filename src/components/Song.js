@@ -2,18 +2,19 @@ import React, { useRef, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { PlayCircleOutline, PauseCircleOutline, Favorite, FavoriteBorder, MoreVert } from '@styled-icons/material';
 import { AuthContext } from '../context/auth';
+import { PlaylistContext } from '../context/playlist';
 import axios from 'axios';
 
 const Container = styled.div`
-	display: flex;
-	align-items: center;
-	justify-items: space-between;
-	max-width: 800px;
-
+	display:flex; 
+	align-items:center; 
+	justify-items:space - between; 
+	max-width:800px;
+	
 	& + div {
-		margin-top: 10px;
-		padding-top: 10px;
-		border-top: 1px solid ${(props) => props.theme.lightgrey};
+		margin-top:10px; 
+		padding-top:10px; 
+		border-top:1px solid $ {(props) => props.theme.lightgrey}; 
 	}
 `;
 
@@ -37,32 +38,40 @@ const SongInfo = styled.div`
 
 const SongOptions = styled.div`
 	svg {
-		cursor: pointer;
-
+		cursor:pointer;  
+		
 		&:hover {
-			fill: ${(props) => props.theme.green};
+			fill:$ {(props) => props.theme.green}; 
 		}
 	}
 `;
 
-export default function Song(props) {
+export default React.memo(function Song(props) {
 	let _track = useRef();
 	const { token } = useContext(AuthContext);
-	const { song, isPlaying, changePlayingSong, getNextSong } = props;
+	const { song, getNextSong } = props;
+	const { currentlyPlayingSong, setCurrentlyPlayingSong } = useContext(PlaylistContext);
 	const [ favorited, setFavorited ] = useState(false);
+	let isPlaying = false;
 
 	useEffect(
 		() => {
-			if (_track.current) {
-				if (!isPlaying) {
-					_track.current.pause();
-				} else {
-					_track.current.play();
-				}
-			}
+			getPlayStatus();
 		},
-		[ isPlaying ]
+		[ currentlyPlayingSong ]
 	);
+
+	const getPlayStatus = () => {
+		isPlaying = song.id === currentlyPlayingSong.id;
+
+		if (_track.current) {
+			if (!isPlaying) {
+				_track.current.pause();
+			} else {
+				_track.current.play();
+			}
+		}
+	};
 
 	const likeSong = () => {
 		axios
@@ -78,7 +87,7 @@ export default function Song(props) {
 			.then((response) => {
 				if (response.status === 200) setFavorited(true);
 			})
-			.catch((error) => console.log(error.response));
+			.catch((error) => console.error(error.response));
 	};
 
 	return (
@@ -86,31 +95,40 @@ export default function Song(props) {
 			<SongOptions>
 				<audio
 					onPlay={() => {
-						changePlayingSong(song);
-						console.log('play');
+						isPlaying = true;
 					}}
 					onPause={() => {
-						changePlayingSong({});
-						console.log('pause');
+						isPlaying = false;
 					}}
 					onEnded={() => getNextSong(song)}
 					src={song.preview_url}
 					ref={_track}
 				/>
-				{!isPlaying ? (
-					<PlayCircleOutline size="32" onClick={() => _track.current.play()} />
+				{currentlyPlayingSong.id !== song.id ? (
+					<PlayCircleOutline
+						size="32"
+						onClick={() => {
+							setCurrentlyPlayingSong(song);
+							_track.current.play();
+						}}
+					/>
 				) : (
-					<PauseCircleOutline size="32" onClick={() => _track.current.pause()} />
+					<PauseCircleOutline
+						size="32"
+						onClick={() => {
+							setCurrentlyPlayingSong({});
+							_track.current.pause();
+						}}
+					/>
 				)}
 			</SongOptions>
 			<SongInfo>
-				<p className="song">{song.name}</p>
-				<p className="artist">{song.artists[0].name}</p>
+				<p className="song"> {song.name} </p> <p className="artist"> {song.artists[0].name} </p>
 			</SongInfo>
 			<SongOptions>
 				{!favorited ? <FavoriteBorder size="24" title="Save" onClick={likeSong} /> : <Favorite size="24" />}
-				<MoreVert size="24" title="Options" />
+				{/*<MoreVert size="24" title="Options" />*/}
 			</SongOptions>
 		</Container>
 	);
-}
+});

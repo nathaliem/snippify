@@ -24,7 +24,7 @@ const Container = styled.div`
 	min-height: 100vh;
 `;
 
-export default function Page() {
+export default React.memo(function Page() {
 	const { token } = useContext(AuthContext);
 	const [ songs, setSongs ] = useState([]);
 	const { selectedPlaylist } = useContext(PlaylistContext);
@@ -60,7 +60,7 @@ export default function Page() {
 			</Header>
 			{token ? (
 				<Container>
-					<Playlists />
+					{<Playlists />}
 					{<Songs songs={songs} />}
 				</Container>
 			) : (
@@ -68,4 +68,4 @@ export default function Page() {
 			)}
 		</div>
 	);
-}
+});

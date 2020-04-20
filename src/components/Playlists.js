@@ -30,7 +30,7 @@ const LoadMoreButton = styled.button`
 	}
 `;
 
-export default function Playlists() {
+export default React.memo(function Playlists() {
 	let { token, setToken } = useContext(AuthContext);
 	const [ playlists, setPlaylists ] = useState([]);
 	const [ playlistOffset, setPlaylistOffset ] = useState(0);
@@ -66,11 +66,9 @@ export default function Playlists() {
 
 	return (
 		<Container>
-			<h2>
-				Playlists <MoreVert size="24" />
-			</h2>
+			<h2>Playlists {/*<MoreVert size="24" title="Options"  />*/}</h2>
 			{playlists && playlists.map((playlist) => <Playlist key={playlist.id} playlist={playlist} />)}
 			<LoadMoreButton onClick={loadMorePlaylists}>Load more playlists</LoadMoreButton>
 		</Container>
 	);
-}
+});

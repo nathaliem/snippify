@@ -9,9 +9,9 @@ const Container = styled.div`
 	padding: 15px;
 `;
 
-export default function Songs(props) {
+export default React.memo(function Songs(props) {
 	const { songs } = props;
-	const [ currentlyPlayingSong, setCurrentlyPlayingSong ] = useState({});
+	const { setCurrentlyPlayingSong } = useContext(PlaylistContext);
 	const { selectedPlaylist } = useContext(PlaylistContext);
 
 	const getNextSong = (song) => {
@@ -36,20 +36,11 @@ export default function Songs(props) {
 			<h2>{selectedPlaylist.name}</h2>
 			{songs && selectedPlaylist.name ? (
 				songs.map((song) => {
-					console.log(song.name, currentlyPlayingSong.id, song.id);
-					return (
-						<Song
-							key={song.id}
-							song={song}
-							changePlayingSong={(newSong) => setCurrentlyPlayingSong(newSong)}
-							getNextSong={() => getNextSong(song)}
-							isPlaying={currentlyPlayingSong.id ? song.id === currentlyPlayingSong.id : false}
-						/>
-					);
+					return <Song key={song.id} song={song} getNextSong={() => getNextSong(song)} />;
 				})
 			) : (
 				<p>Choose a playlist!</p>
 			)}
 		</Container>
 	);
-}
+});
