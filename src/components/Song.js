@@ -53,7 +53,6 @@ export default function Song(props) {
 
 	useEffect(
 		() => {
-			console.log(song.name, isPlaying);
 			if (_track.current) {
 				if (!isPlaying) {
 					_track.current.pause();
