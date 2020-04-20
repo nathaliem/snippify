@@ -6,15 +6,15 @@ import { PlaylistContext } from '../context/playlist';
 import axios from 'axios';
 
 const Container = styled.div`
-	display:flex; 
-	align-items:center; 
-	justify-items:space - between; 
-	max-width:800px;
-	
+	display: flex;
+	align-items: center;
+	justify-items: space-between;
+	max-width: 800px;
+
 	& + div {
-		margin-top:10px; 
-		padding-top:10px; 
-		border-top:1px solid $ {(props) => props.theme.lightgrey}; 
+		margin-top: 10px;
+		padding-top: 10px;
+		border-top: 1px solid ${(props) => props.theme.lightgrey};
 	}
 `;
 
@@ -38,10 +38,10 @@ const SongInfo = styled.div`
 
 const SongOptions = styled.div`
 	svg {
-		cursor:pointer;  
-		
+		cursor: pointer;
+
 		&:hover {
-			fill:$ {(props) => props.theme.green}; 
+			fill: ${(props) => props.theme.green};
 		}
 	}
 `;
@@ -54,13 +54,6 @@ export default React.memo(function Song(props) {
 	const [ favorited, setFavorited ] = useState(false);
 	let isPlaying = false;
 
-	useEffect(
-		() => {
-			getPlayStatus();
-		},
-		[ currentlyPlayingSong ]
-	);
-
 	const getPlayStatus = () => {
 		isPlaying = song.id === currentlyPlayingSong.id;
 
@@ -72,6 +65,13 @@ export default React.memo(function Song(props) {
 			}
 		}
 	};
+
+	useEffect(
+		() => {
+			getPlayStatus();
+		},
+		[ currentlyPlayingSong ]
+	);
 
 	const likeSong = () => {
 		axios
