@@ -11,8 +11,10 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
-    "react-test-renderer": "^16.13.1",
     "styled-components": "^5.1.0"
+  },
+  "devDependencies": {
+    "react-test-renderer": "^16.13.1"
   },
   "scripts": {
     "start": "react-scripts start",

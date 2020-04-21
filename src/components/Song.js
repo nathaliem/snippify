@@ -73,7 +73,6 @@ export default React.memo(function Song(props) {
 
 	useEffect(
 		() => {
-			console.log(currentlyPlayingSong);
 			setIsPlaying(currentlyPlayingSong.id === song.id);
 		},
 		[ currentlyPlayingSong ]
@@ -122,7 +121,11 @@ export default React.memo(function Song(props) {
 				<p className="song"> {song.name} </p> <p className="artist"> {song.artists[0].name} </p>
 			</SongInfo>
 			<SongOptions>
-				{!favorited ? <FavoriteBorder size="24" title="Save" onClick={likeSong} /> : <Favorite size="24" />}
+				{!favorited ? (
+					<FavoriteBorder data-testid="favorite" size="24" title="Save" onClick={likeSong} />
+				) : (
+					<Favorite size="24" />
+				)}
 				{/*<MoreVert size="24" title="Options" />*/}
 			</SongOptions>
 		</Container>
