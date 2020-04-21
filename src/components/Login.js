@@ -28,7 +28,7 @@ export default function Login() {
 	const sendToLoginPage = () => {
 		const url = `https://accounts.spotify.com/authorize?client_id=${process.env
 			.REACT_APP_SPOTIFY_CLIENTID}&redirect_uri=${process.env
-			.REACT_APP_SPOTIFY_REDIRECTURI}&response_type=token&show_dialog=true&scope=user-library-modify user-library-read`;
+			.REACT_APP_SPOTIFY_REDIRECTURI}&response_type=token&show_dialog=true&scope=user-library-modify user-library-read playlist-read-private playlist-read-collaborative`;
 		window.location = url;
 	};
 
