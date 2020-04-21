@@ -73,7 +73,6 @@ export default React.memo(function Song(props) {
 
 	useEffect(
 		() => {
-			console.log(currentlyPlayingSong);
 			setIsPlaying(currentlyPlayingSong.id === song.id);
 		},
 		[ currentlyPlayingSong ]
