@@ -39,7 +39,7 @@ export default React.memo(function Songs(props) {
 	return (
 		<Container>
 			<h2>
-				{selectedPlaylist.name}
+				{selectedPlaylist.name}{' '}
 				{selectedPlaylist.tracks && <SongCount>({selectedPlaylist.tracks.total})</SongCount>}
 			</h2>
 			{songs && selectedPlaylist.name ? (
