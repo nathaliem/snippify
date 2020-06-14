@@ -39,7 +39,7 @@ export default React.memo(function Page() {
 			.then((response) => {
 				const mappedSongs = response.data.items
 					.map((item) => item.track)
-					.filter((item) => item.preview_url !== null);
+					.filter((item) => item && item.preview_url !== null);
 				setSongs(mappedSongs);
 			});
 	};
